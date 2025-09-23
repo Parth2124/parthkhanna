@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Our Community!</title>
+  <style>
+    /* Reset default styles for email clients */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333333;
+    }
+    a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    /* Inline Tailwind-like styles for email compatibility */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+    }
+    .header {
+      background-color: #f8fafc;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+    }
+    .content {
+      padding: 20px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #1a73e8;
+      color: #ffffff;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .cta-button:hover {
+      background-color: #1557b0;
+    }
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 20px;
+    }
+    @media only screen and (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+      .header {
+        padding: 15px;
+      }
+      .cta-button {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <div class="header">
+      <h2 style="font-size: 24px; font-weight: 700; color: #1f2937;">Welcome to Our Community!</h2>
+      <p style="font-size: 16px; color: #4b5563;">Thank you for subscribing!</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <p style="font-size: 16px; color: #4b5563;">
+        We're excited to have you on board! You'll now receive updates about our latest projects, services, and exclusive offers directly to your inbox.
+      </p>
+      <p style="font-size: 16px; color: #4b5563;">
+        Want to explore more? Check out our website to dive into what we do!
+      </p>
+      <a href="/" target="_blank" class="cta-button">Visit Our Website</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Stay tuned for exciting updates!</p>
+      <p>&copy; 2025 Your Company. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
