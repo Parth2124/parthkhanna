@@ -7,6 +7,8 @@ Generated using Django 5.2
 from pathlib import Path
 import os
 import environ
+import dj_database_url
+
 
 # Initialize environment variables
 env = environ.Env(
@@ -91,14 +93,18 @@ CHANNEL_LAYERS = {
 # =====================
 # Database
 # =====================
-import dj_database_url
+
 DATABASES = {
-    'default': dj_database_url.config(
+    "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=False  # disable SSL by default
     )
 }
+
+# If using Postgres in production (Render), enforce SSL
+if DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
+    DATABASES["default"]["OPTIONS"] = {"sslmode": "require"}
 
 # =====================
 # Password validation
