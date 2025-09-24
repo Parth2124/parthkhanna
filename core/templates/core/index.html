@@ -422,6 +422,13 @@ const subscribeForm = document.getElementById("subscribeForm");
 const subscribeSuccess = document.getElementById("subscribeSuccess");
 const closeSubscribe = document.getElementById("closeSubscribe");
 
+// Close any close-btn in the subscribe form (the X button inside the form itself)
+subscribeForm.querySelectorAll(".close-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        subscribeForm.style.display = "none"; // Hide the form itself
+    });
+});
+
 subscribeForm.addEventListener("submit", function(e) {
     e.preventDefault();
 
