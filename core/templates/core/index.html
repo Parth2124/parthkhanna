@@ -266,7 +266,10 @@
                         <span style="font-weight: bold; font-size: 14px;">{{ social.platform }}</span>
                     </div>
                     <div style="padding: 10px; text-align: left; flex-grow: 1;">
-                        <img src="{{ social.image.url }}" alt="{{ social.platform }} Profile Picture" style="width: 70px; border-radius: 60%; margin-bottom: 9px;">
+{% load static %}
+<img src="{% static 'img/social1.png' %}" 
+     alt="{{ social.platform }} Profile Picture" 
+     style="width: 70px; border-radius: 60%; margin-bottom: 9px;">
                         <p style="margin: 0; font-weight: bold;">{{ social.name }}</p>
                         <!-- <p style="font-size: 14px; line-height: 1.4; margin: 8px 0;">{{ social.description }}</p> -->
                          {% for line in social.details_list %}
@@ -345,6 +348,22 @@
         <option value="" disabled selected>Select an option</option>
     </select>
 </div>
+
+<style>
+    .success-box {
+    display: none;
+}
+.success-box.show {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+</style>
 
                         <div class="mb-4">
                             <label for="message" class="block text-sm sm:text-base font-medium text-white mb-2">Message</label>
