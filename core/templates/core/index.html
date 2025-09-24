@@ -143,7 +143,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-8 sm:gap-12 z-10">
         {% for hero in hero_sections %}
         <div class="md:w-1/3 animate-slide-up flex justify-center">
-            <img src="{{ hero.image.url }}" alt="Parth Khanna" class="rounded-full shadow-2xl hover-scale w-64 h-64 sm:w-80 sm:h-80 object-cover border-4 border-white">
+{% load static %}
+
+<img src="{% static 'hero_images/parthherosection.png' %}" 
+     alt="Parth Khanna" 
+     class="rounded-full shadow-2xl hover-scale w-64 h-64 sm:w-80 sm:h-80 object-cover border-4 border-white">
         </div>
         <div class="md:w-2/3 text-center md:text-left">
             <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-primary mb-4 animate-slide-up">{{ hero.title }}</h1>
