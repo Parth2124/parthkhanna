@@ -407,13 +407,56 @@
     </form>
 
     <!-- Thank you message (hidden initially) -->
-    <div id="thankYouMsg" style="display: none; color: rgb(8, 38, 47); margin-top: 10px;">
-        Thank you for subscribing!
-    </div>
+    <!-- Thank you message popup -->
+<div id="subscribeSuccess" class="success-box" style="background:#28a745; color:#fff; padding:15px; border-radius:8px; text-align:center; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:300px; display:none; z-index:9999;">
+    <p>Thank you for subscribing! Check your email.</p>
+    <span class="close-btn" id="closeSubscribe" style="position:absolute; top:5px; right:10px; cursor:pointer; font-size:20px;">&times;</span>
+</div>
+
 </div>
 
 
    <script>
+    // Subscribe form handling
+const subscribeForm = document.getElementById("subscribeForm");
+const subscribeSuccess = document.getElementById("subscribeSuccess");
+const closeSubscribe = document.getElementById("closeSubscribe");
+
+subscribeForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(subscribeForm);
+    const submitBtn = subscribeForm.querySelector("button");
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Subscribing...";
+
+    fetch(subscribeForm.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            subscribeSuccess.style.display = "block";
+            subscribeForm.reset();
+        } else {
+            alert("Something went wrong. Try again!");
+        }
+    })
+    .catch(error => console.error("Error:", error))
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Subscribe";
+    });
+});
+
+closeSubscribe.addEventListener("click", () => {
+    subscribeSuccess.style.display = "none";
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     // Contact form handling
     const contactForm = document.getElementById("contactForm");
