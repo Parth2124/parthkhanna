@@ -544,6 +544,33 @@ document.addEventListener("DOMContentLoaded", function() {
             clickable: true
         }
     });
+
+    // Handle purpose select change to populate specific options
+    const purposeSelect = document.getElementById('purpose');
+    const specificSelect = document.getElementById('specific');
+
+    purposeSelect.addEventListener('change', function() {
+        const purpose = this.value;
+        if (purpose) {
+            fetch(`/get-specific-options/?purpose=${encodeURIComponent(purpose)}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing options except the first one
+                    specificSelect.innerHTML = '<option value="" disabled selected>Select an option</option>';
+                    // Add new options
+                    data.options.forEach(option => {
+                        const opt = document.createElement('option');
+                        opt.value = option;
+                        opt.textContent = option;
+                        specificSelect.appendChild(opt);
+                    });
+                })
+                .catch(error => console.error('Error fetching options:', error));
+        } else {
+            // Reset specific select if no purpose selected
+            specificSelect.innerHTML = '<option value="" disabled selected>Select an option</option>';
+        }
+    });
 });
 </script>
 
