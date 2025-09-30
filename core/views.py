@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from .models import HeroSection, Project, Service, Experience, SocialMedia
 from django.http import JsonResponse
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from .models import HeroSection, Project, Service, Experience, SocialMedia, ContactMessage, Subscriber
 
 def index(request):
     hero_sections = HeroSection.objects.all()
-    
+
 
     # Add a new attribute `skills_list` for each hero
     for hero in hero_sections:
@@ -34,19 +36,8 @@ def index(request):
     })
 
 
-def contact(request):
-    if request.method == 'POST':
-        # Handle contact form submission
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'})
 
-def subscribe(request):
-    if request.method == 'POST':
 
-        # (your save + email sending logic here)
-
-        return JsonResponse({'status': 'success', 'message': 'Thank you for subscribing!'})
-    return JsonResponse({'status': 'error'})
 
 
 def get_specific_options(request):
@@ -54,27 +45,18 @@ def get_specific_options(request):
     options = []
 
     if purpose == "Project":
-        from .models import Project
         options = [p.title for p in Project.objects.all()]
     elif purpose == "Service":
-        from .models import Service
         options = [s.title for s in Service.objects.all()]
     elif purpose == "Job Offer":
         options = ["Internship", "Full-time"]  # static options
 
     return JsonResponse({'options': options})
-    
-
-
-
-    from django.shortcuts import render
-from django.http import JsonResponse
-from django.core.mail import send_mail, EmailMultiAlternatives
-from django.template.loader import render_to_string
-from .models import HeroSection, Project, Service, Experience, SocialMedia, ContactMessage, Subscriber
 
 def contact(request):
     if request.method == 'POST':
+        import logging
+        logger = logging.getLogger(__name__)
         name = request.POST.get('name')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
@@ -107,13 +89,19 @@ def contact(request):
 
         email_msg = EmailMultiAlternatives(subject, "", "parthkhannaa@gmail.com", [email])
         email_msg.attach_alternative(html_content, "text/html")
-        email_msg.send()
+        try:
+            email_msg.send()
+        except Exception as e:
+            logger.error(f"Failed to send contact email to {email}: {e}")
+            return JsonResponse({'status': 'error', 'message': 'Failed to send email.'})
 
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'})
 
 def subscribe(request):
     if request.method == 'POST':
+        import logging
+        logger = logging.getLogger(__name__)
         email = request.POST.get('email')
         subscriber, created = Subscriber.objects.get_or_create(email=email)
 
@@ -123,7 +111,11 @@ def subscribe(request):
             html_content = render_to_string('emails/welcome_subscribe.html', {'email': email})
             email_msg = EmailMultiAlternatives(subject, "", "parthkhannaa@gmail.com", [email])
             email_msg.attach_alternative(html_content, "text/html")
-            email_msg.send()
+            try:
+                email_msg.send()
+            except Exception as e:
+                logger.error(f"Failed to send welcome email to {email}: {e}")
+                return JsonResponse({'status': 'error', 'message': 'Failed to send email.'})
 
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'})
